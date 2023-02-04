@@ -11,11 +11,11 @@ typedef enum
     DHT11_OUTPUT
 }DHT11_InitTypedef;
 
-#define DHT11_GPIO_CLK              RCC_APB2Periph_GPIOA
+#define DHT11_GPIO_CLK              RCC_APB2Periph_GPIOB
 #define DHT11_GPIO_APBxCLKCMD       RCC_APB2PeriphClockCmd
 
 #define DHT11_GPIO_PIN              GPIO_Pin_2
-#define DHT11_GPIO_PORT             GPIOA
+#define DHT11_GPIO_PORT             GPIOB
 
 #define DHT11_WIREBUS(BitValue)     GPIO_WriteBit(DHT11_GPIO_PORT,DHT11_GPIO_PIN,(BitAction)BitValue);
 #define DHT11_CLK_ENABLE			DHT11_GPIO_APBxCLKCMD(DHT11_GPIO_CLK,ENABLE);

@@ -20,8 +20,8 @@ static void Usart_NVIC_Init()
     //≈‰÷√NVIC≤Œ ˝
     NVIC_InitStruct.NVIC_IRQChannel=SPECIFIE_USART_IRQChannel;
     NVIC_InitStruct.NVIC_IRQChannelCmd=ENABLE;
-    NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority=1;
-    NVIC_InitStruct.NVIC_IRQChannelSubPriority=1;
+    NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority=0;
+    NVIC_InitStruct.NVIC_IRQChannelSubPriority=2;
     NVIC_Init(&NVIC_InitStruct);
 }
 

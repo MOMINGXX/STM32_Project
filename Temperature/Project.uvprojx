@@ -764,6 +764,26 @@
               <FileType>5</FileType>
               <FilePath>.\HardWare\OLED_Font.h</FilePath>
             </File>
+            <File>
+              <FileName>TIMCOUNT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\TIMCOUNT.c</FilePath>
+            </File>
+            <File>
+              <FileName>TIMCOUNT.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HardWare\TIMCOUNT.h</FilePath>
+            </File>
+            <File>
+              <FileName>KEY.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\KEY.c</FilePath>
+            </File>
+            <File>
+              <FileName>KEY.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HardWare\KEY.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

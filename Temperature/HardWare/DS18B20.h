@@ -14,11 +14,11 @@ typedef enum
     DS18B20_OUTPUT
 }DS18B20_InitTypedef;
 
-#define DS18B20_GPIO_CLK                RCC_APB2Periph_GPIOA
+#define DS18B20_GPIO_CLK                RCC_APB2Periph_GPIOB
 #define DS18B20_GPIO_APBxCLKCMD         RCC_APB2PeriphClockCmd
 
-#define DS18B20_GPIO_PIN                GPIO_Pin_1
-#define DS18B20_GPIO_PORT               GPIOA
+#define DS18B20_GPIO_PIN                GPIO_Pin_0
+#define DS18B20_GPIO_PORT               GPIOB
 
 #define DS18B20_WIREBUS(BitValue)       GPIO_WriteBit(DS18B20_GPIO_PORT,DS18B20_GPIO_PIN,(BitAction)BitValue);
 #define DS18B20_CLK_ENABLE				DS18B20_GPIO_APBxCLKCMD(DS18B20_GPIO_CLK,ENABLE);
