@@ -53,7 +53,8 @@ void OLED_DS18B20_Temp(uint8_t x)
 	if(x <= 4 && x >= 1)
 	{
 		OLED_ShowString(x,1,"Temp:");
-		//OLED_ShowChar(x,13,'¡æ');
+		OLED_ShowChar(x,13,95+32);
+		OLED_ShowChar(x,14,'C');
 		DS18B20_ConvertT();
 		T=DS18B20_ReadT();
 		printf("\r\nwd:>%f\n",T);
@@ -91,7 +92,7 @@ void OLED_DHT11_Temp()
     printf("Hum:%d %%H\r\n", HumiL);
     
 	OLED_ShowString(3,1,"Temp:");
-	OLED_ShowChar(3,13,95);
+	OLED_ShowChar(3,13,95+32);
 	OLED_ShowChar(3,14,'C');
     OLED_ShowNum(3,7,TempH,3);
 
@@ -118,8 +119,10 @@ void OLED_Alert_Temp()
 	OLED_ShowNum(2,8,Alert_Temp[0],3);
 	OLED_ShowChar(2,7,'+');
 	OLED_ShowSignedNum(3,7,Alert_Temp[1],3);
-	OLED_ShowChar(2,13,95);
-	OLED_ShowChar(2,14,'C');
+	OLED_ShowChar(2,11,95+32);
+	OLED_ShowChar(2,12,'C');
+	OLED_ShowChar(3,11,95+32);
+	OLED_ShowChar(3,12,'C');
 }
 
 /****
