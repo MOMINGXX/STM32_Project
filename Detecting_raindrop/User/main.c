@@ -16,8 +16,7 @@ int main()
 	{
 		RainDrop_Detect();
 		Volatge = (float)Rain_size/4095*3.3;
-		printf("Volatge:");
-		printf("%f\n",Volatge);
+		printf("Volatge:%f\n",Volatge);
 		Delay_s(1);
 	}
 } 
