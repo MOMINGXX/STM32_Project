@@ -111,12 +111,12 @@
         <DllOption>
           <SimDllName>SARMCM3.DLL</SimDllName>
           <SimDllArguments> -REMAP</SimDllArguments>
-          <SimDlgDll>DARMSTM.DLL</SimDlgDll>
-          <SimDlgDllArguments>-pSTM32F103C8</SimDlgDllArguments>
+          <SimDlgDll>DCM.DLL</SimDlgDll>
+          <SimDlgDllArguments>-pCM3</SimDlgDllArguments>
           <TargetDllName>SARMCM3.DLL</TargetDllName>
-          <TargetDllArguments> -REMAP</TargetDllArguments>
-          <TargetDlgDll>DARMSTM.DLL</TargetDlgDll>
-          <TargetDlgDllArguments>-pSTM32F103C8</TargetDlgDllArguments>
+          <TargetDllArguments></TargetDllArguments>
+          <TargetDlgDll>TCM.DLL</TargetDlgDll>
+          <TargetDlgDllArguments>-pCM3</TargetDlgDllArguments>
         </DllOption>
         <DebugOption>
           <OPTHX>
@@ -690,14 +690,64 @@
               <FilePath>.\HardWare\OLED_Font.h</FilePath>
             </File>
             <File>
-              <FileName>MOTOR.c</FileName>
+              <FileName>KEY.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\HardWare\MOTOR.c</FilePath>
+              <FilePath>.\HardWare\KEY.c</FilePath>
             </File>
             <File>
-              <FileName>MOTOR.h</FileName>
+              <FileName>KEY.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\HardWare\MOTOR.h</FilePath>
+              <FilePath>.\HardWare\KEY.h</FilePath>
+            </File>
+            <File>
+              <FileName>LED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\LED.c</FilePath>
+            </File>
+            <File>
+              <FileName>LED.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HardWare\LED.h</FilePath>
+            </File>
+            <File>
+              <FileName>MPU6050.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\MPU6050.c</FilePath>
+            </File>
+            <File>
+              <FileName>MPU6050.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HardWare\MPU6050.h</FilePath>
+            </File>
+            <File>
+              <FileName>NRF24L01.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\NRF24L01.c</FilePath>
+            </File>
+            <File>
+              <FileName>NRF24L01.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HardWare\NRF24L01.h</FilePath>
+            </File>
+            <File>
+              <FileName>ROCKER.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\ROCKER.c</FilePath>
+            </File>
+            <File>
+              <FileName>ROCKER.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HardWare\ROCKER.h</FilePath>
+            </File>
+            <File>
+              <FileName>USER_I2C.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\USER_I2C.c</FilePath>
+            </File>
+            <File>
+              <FileName>USER_I2C.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HardWare\USER_I2C.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -715,14 +765,24 @@
               <FilePath>.\System\Delay.h</FilePath>
             </File>
             <File>
-              <FileName>Time.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\System\Time.h</FilePath>
+              <FileName>USART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\USART.c</FilePath>
             </File>
             <File>
-              <FileName>Time.c</FileName>
+              <FileName>USART.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\USART.h</FilePath>
+            </File>
+            <File>
+              <FileName>TIME.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\System\Time.c</FilePath>
+              <FilePath>.\System\TIME.c</FilePath>
+            </File>
+            <File>
+              <FileName>TIME.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\TIME.h</FilePath>
             </File>
           </Files>
         </Group>
