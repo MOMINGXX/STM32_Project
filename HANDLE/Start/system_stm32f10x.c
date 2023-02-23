@@ -112,8 +112,7 @@
 /* #define SYSCLK_FREQ_36MHz  36000000 */
 /* #define SYSCLK_FREQ_48MHz  48000000 */
 /* #define SYSCLK_FREQ_56MHz  56000000 */
-/* #define SYSCLK_FREQ_72MHz  72000000 */
-#define SYSCLK_FREQ_108MHz  108000000
+#define SYSCLK_FREQ_72MHz  72000000
 #endif
 
 /*!< Uncomment the following line if you need to use external SRAM mounted
@@ -161,8 +160,6 @@
   uint32_t SystemCoreClock         = SYSCLK_FREQ_56MHz;        /*!< System Clock Frequency (Core Clock) */
 #elif defined SYSCLK_FREQ_72MHz
   uint32_t SystemCoreClock         = SYSCLK_FREQ_72MHz;        /*!< System Clock Frequency (Core Clock) */
-#elif defined SYSCLK_FREQ_108MHz
-  uint32_t SystemCoreClock         = SYSCLK_FREQ_108MHz;        /*!< System Clock Frequency (Core Clock) */
 #else /*!< HSI Selected as System Clock source */
   uint32_t SystemCoreClock         = HSI_VALUE;        /*!< System Clock Frequency (Core Clock) */
 #endif
@@ -190,8 +187,6 @@ static void SetSysClock(void);
   static void SetSysClockTo56(void);  
 #elif defined SYSCLK_FREQ_72MHz
   static void SetSysClockTo72(void);
-  #elif defined SYSCLK_FREQ_108MHz
-  static void SetSysClockTo108(void);
 #endif
 
 #ifdef DATA_IN_ExtSRAM
@@ -435,8 +430,6 @@ static void SetSysClock(void)
   SetSysClockTo56();  
 #elif defined SYSCLK_FREQ_72MHz
   SetSysClockTo72();
-#elif defined SYSCLK_FREQ_108MHz
-  SetSysClockTo108();
 #endif
  
  /* If none of the define above is enabled, the HSI is used as System clock
@@ -1085,48 +1078,6 @@ static void SetSysClockTo72(void)
          configuration. User can add here some code to deal with this error */
   }
 }
-
-#elif defined SYSCLK_FREQ_108MHz
-/**
-  * @brief  Sets System clock frequency to 72MHz and configure HCLK, PCLK2 
-  *         and PCLK1 prescalers. 
-  * @note   This function should be used only after reset.
-  * @param  None
-  * @retval None
-  */
-static void SetSysClockTo108(void)
-{
-    /* HCLK = SYSCLK */
-    RCC->CFGR |= (uint32_t)RCC_CFGR_HPRE_DIV1;
-      
-    /* PCLK2 = HCLK */
-    RCC->CFGR |= (uint32_t)RCC_CFGR_PPRE2_DIV1;
-    
-    /* PCLK1 = HCLK */
-    RCC->CFGR |= (uint32_t)RCC_CFGR_PPRE1_DIV2;
-
-    /*  PLL configuration: PLLCLK = HSI / 2 * (15 + 2) = 108 MHz */
-    RCC->CFGR &= (uint32_t)((uint32_t)~(RCC_CFGR_PLLSRC | RCC_CFGR_PLLMULL));
-    RCC->CFGR |= (uint32_t)(0x08000000 | RCC_CFGR_PLLSRC_HSI_Div2 | RCC_CFGR_PLLMULL12);
-
-    /* Enable PLL */
-    RCC->CR |= RCC_CR_PLLON;
-
-    /* Wait till PLL is ready */
-    while((RCC->CR & RCC_CR_PLLRDY) == 0)
-    {
-    }
-    
-    /* Select PLL as system clock source */
-    RCC->CFGR &= (uint32_t)((uint32_t)~(RCC_CFGR_SW));
-    RCC->CFGR |= (uint32_t)RCC_CFGR_SW_PLL;    
-
-    /* Wait till PLL is used as system clock source */
-    while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS) != (uint32_t)0x08)
-    {
-    }
-}
-
 #endif
 
 /**

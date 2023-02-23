@@ -3,10 +3,11 @@
 __IO uint16_t Rocker_Value_BUFF[NUMCHANNEL] = { 0 };
 
 /****
-	* @brief   “°∏À GPIO ≈‰÷√			  
-	* @param   Œﬁ
-	* @return  Œﬁ    	
-	* Sample usage:ROCKER_GPIO_Config(); 
+		* @brief   “°∏À GPIO ≈‰÷√			  
+		* @param   Œﬁ
+		* @return  Œﬁ    	
+		* Sample usage:ROCKER_GPIO_Config(); 
+		* note
     */
 static void ROCKER_GPIO_Config()
 {

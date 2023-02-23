@@ -1,5 +1,12 @@
 #include "MPU6050.h"
 
+/****
+	* @brief    六轴传感器 写数据			  
+	* @param   	RegAddress  寄存器地址
+    * @param   	Data        写入的数据
+	* @return   无    	
+	* Sample usage:MPU6050_WriteReg(MPU6050_PWR_MGMT_1,0x01);
+    */
 void MPU6050_WriteReg(uint8_t RegAddress,uint8_t Data)
 {
     IIC_Start();
@@ -12,6 +19,12 @@ void MPU6050_WriteReg(uint8_t RegAddress,uint8_t Data)
     IIC_Stop();
 }
 
+/****
+	* @brief    六轴传感器 读取数据		  
+	* @param   	RegAddress  寄存器地址
+	* @return   Data        读取的数据   	
+	* Sample usage:MPU6050_ReadReg(MPU6050_PWR_MGMT_1);
+    */
 uint8_t MPU6050_ReadReg(uint8_t RegAddress)
 {
     uint8_t Data = 0;
@@ -30,6 +43,12 @@ uint8_t MPU6050_ReadReg(uint8_t RegAddress)
     return Data;    
 }
 
+/****
+	* @brief    六轴传感器 初始化		  
+	* @param   	无
+	* @return   无	
+	* Sample usage:MPU6050_Init();
+    */
 void MPU6050_Init()
 {
     IIC_Init();
@@ -41,11 +60,23 @@ void MPU6050_Init()
 	MPU6050_WriteReg(MPU6050_ACCEL_CONFIG,0x18);	//加速度计
 }
 
+/****
+	* @brief    六轴传感器 ID		  
+	* @param   	无
+	* @return   ID号          0X68
+	* Sample usage:MPU6050_GetID();
+    */
 uint8_t MPU6050_GetID()
 {
 	return MPU6050_ReadReg(MPU6050_WHO_AM_I);
 }
 
+/****
+	* @brief    六轴传感器 读取数据		  
+	* @param   	Data    结构体地址
+	* @return   无
+	* Sample usage:MPU6050_GetData(&Data);
+    */
 void MPU6050_GetData(MPU6050_Data *Data)
 {
 	Data->ACCEL_XOUT = MPU6050_ReadReg(MPU6050_ACCEL_XOUT_H) << 8;
