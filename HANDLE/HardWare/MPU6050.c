@@ -52,9 +52,9 @@ uint8_t MPU6050_ReadReg(uint8_t RegAddress)
 void MPU6050_Init()
 {
     IIC_Init();
-	MPU6050_WriteReg(MPU6050_PWR_MGMT_1,0x01);		//电源管理寄存器1  选用X轴陀螺仪时钟
+	MPU6050_WriteReg(MPU6050_PWR_MGMT_1,0x01);		//电源管理寄存器1  解除休眠状态 选用X轴陀螺仪时钟
 	MPU6050_WriteReg(MPU6050_PWR_MGMT_2,0x00);		//电源管理寄存器2  6轴均不待机
-	MPU6050_WriteReg(MPU6050_SMPLRT_DIV,0x07);		//采样率分频
+	MPU6050_WriteReg(MPU6050_SMPLRT_DIV,0x07);		//采样率分频       陀螺仪125hz
 	MPU6050_WriteReg(MPU6050_CONFIG,0x06);			//低通滤波频率
 	MPU6050_WriteReg(MPU6050_GYRO_CONFIG,0x18);		//陀螺仪
 	MPU6050_WriteReg(MPU6050_ACCEL_CONFIG,0x18);	//加速度计

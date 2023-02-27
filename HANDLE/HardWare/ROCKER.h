@@ -4,6 +4,25 @@
 #include "stm32f10x.h"                  // Device header
 #include "Delay.h"
 
+typedef struct 
+{
+    uint16_t ROCKER_RX_Value;
+    uint16_t ROCKER_RY_Value;
+    uint16_t ROCKER_LX_Value;
+    uint16_t ROCKER_LY_Value;
+    float Electricity;
+}ROCKER_Value;
+
+#define Y_ADC_MIN 0
+#define Y_COORDINATE_MIN 0
+#define Y_COORDINATE_MAX 100
+
+// 定义电池额定电压
+#define BATTERY_RATED_VOLTAGE 3.7f
+// 定义ADC分辨率
+#define ADC_RESOLUTION 4096
+
+//通道数目
 #define NUMCHANNEL          5
 
 //ADC
@@ -35,7 +54,7 @@
 #define ROCKER_ADCR1x_GPIO_PIN              GPIO_Pin_0
 #define ROCKER_ADCR2x_GPIO_PIN              GPIO_Pin_1
 
-void AD_GetValue();
 void ROCKER_Init();
+void ROCKER_COORDINATE(ROCKER_Value *Value);
 
 #endif

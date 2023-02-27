@@ -132,15 +132,19 @@ void ROCKER_Init()
 	ROCKER_ADCx_Config(); 
 }
 
-void AD_GetValue()
+void ROCKER_COORDINATE(ROCKER_Value *Value)
 {
-	DMA_Cmd(DMA1_Channel1,DISABLE);
-	DMA_SetCurrDataCounter(DMA1_Channel1,2);//给传输计数器赋值
-	DMA_Cmd(DMA1_Channel1,ENABLE);
-	
-	ADC_SoftwareStartConvCmd(ADC1,ENABLE); 
-	
-	while(DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET);//获取标志位     转运完成
-	DMA_ClearFlag(DMA1_FLAG_TC1);
+    Value->ROCKER_RX_Value =    (Rocker_Value_BUFF[2] - Y_ADC_MIN) * (Y_COORDINATE_MAX - Y_COORDINATE_MIN) / 
+                                (ADC_RESOLUTION - Y_ADC_MIN) + Y_COORDINATE_MIN;
+    Value->ROCKER_RY_Value =    (Rocker_Value_BUFF[3] - Y_ADC_MIN) * (Y_COORDINATE_MAX - Y_COORDINATE_MIN) / 
+                                (ADC_RESOLUTION - Y_ADC_MIN) + Y_COORDINATE_MIN;
+    Value->ROCKER_LX_Value =    (Rocker_Value_BUFF[0] - Y_ADC_MIN) * (Y_COORDINATE_MAX - Y_COORDINATE_MIN) / 
+                                (ADC_RESOLUTION - Y_ADC_MIN) + Y_COORDINATE_MIN;
+    Value->ROCKER_LY_Value =    (Rocker_Value_BUFF[1] - Y_ADC_MIN) * (Y_COORDINATE_MAX - Y_COORDINATE_MIN) / 
+                                (ADC_RESOLUTION - Y_ADC_MIN) + Y_COORDINATE_MIN;  
+
+    float voltage = (float)(Rocker_Value_BUFF[4] * 3.3 / ADC_RESOLUTION);       // 计算电压值
+    Value->Electricity = voltage * 3 / BATTERY_RATED_VOLTAGE*100;             //计算电量  电阻(R21(R1+R2))1/3分压                                                          
 }
+
 

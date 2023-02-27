@@ -2,6 +2,18 @@
 #define __NRF24L01_H__
 
 #include "stm32f10x.h"                  // Device header
+#include "SOFT_SPI.h"
+#include "USART.h"
+#include "Delay.h"
+
+/* 这两个数据要完全一致才能够通信 */
+#define NRF24L01_TX_ADR_WIDTH 	   5  	//发射地址宽度
+#define NRF24L01_TX_PLOAD_WIDTH    32   //发射数据通道有效数据宽度0~32Byte 
+
+#define NRF24L01_RX_ADR_WIDTH      5
+#define NRF24L01_RX_PLOAD_WIDTH    32
+
+#define NRF24L01_CHANAL            40	//频道选择 
 
 #define NRF24L01_R_REGISTER        0x00    // 读寄存器。5位存储器映射地址
 #define NRF24L01_W_REGISTER        0x20    // 写寄存器。5位存储器映射地址，仅可在断电或待机模式下执行
@@ -10,7 +22,7 @@
 #define NRF24L01_FLUSH_TX          0xE1    // 刷新TX FIFO，用于TX模式
 #define NRF24L01_FLUSH_RX          0xE2    // 刷新RX FIFO，用于RX模式，在传输确认期间不应执行（确认包不会完成）。
 #define NRF24L01_REUSE_TX_PL       0xE3    // 用于PTX设备。重用最后发送的有效负载。 只要CE为高，就会重复发送数据包。在执行W_TX_PAYLOAD或FLUSH TX之前，TX有效负载重用处于活动状态。 在包传输期间，不得激活或停用TX有效载荷重用
-#define NRF24L01_NOP               0xFF    // 没有操作。 可能用于读取STATUS寄存器
+#define NOP                        0xFF    // 没有操作。 可能用于读取STATUS寄存器
 
 #define NRF24L01_CONFIG            0x00    // 配置寄存器
 #define NRF24L01_EN_AA             0x01    // 启用“自动确认”功能，禁用此功能以与nRF2401兼容
@@ -36,6 +48,9 @@
 #define NRF24L01_RX_PW_P4          0x15    // 数据管道4中的RX有效负载中的字节数（1到32个字节）
 #define NRF24L01_RX_PW_P5          0x16    // 数据管道1中的RX有效负载中的字节数（1到32个字节）
 #define NRF24L01_FIFO_STATUS       0x17    // FIFO状态寄存器
+#define NRF24L01_MAX_RT            0x10    //达到最大重发次数中断标志位
+#define NRF24L01_TX_DS		       0x20    //发送完成中断标志位	  
+#define NRF24L01_RX_DR		       0x40    //接收到数据中断标志位
 
 //SPI
 #define NRF24L01_SPIx                       SPI2
@@ -48,10 +63,22 @@
 
 #define NRF24L01_GPIO_PORT                  GPIOB
 #define NRF24L01_CE_GPIO_PIN                GPIO_Pin_6
-#define NRF24L01_CSN_GPIO_PIN               GPIO_Pin_7
 #define NRF24L01_IRQ_GPIO_PIN               GPIO_Pin_8
-#define NRF24L01_SCK_GPIO_PIN               GPIO_Pin_13
-#define NRF24L01_MISO_GPIO_PIN              GPIO_Pin_14
-#define NRF24L01_MOSI_GPIO_PIN              GPIO_Pin_15
+//#define NRF24L01_CSN_GPIO_PIN               GPIO_Pin_12
+//#define NRF24L01_SCK_GPIO_PIN               GPIO_Pin_13
+//#define NRF24L01_MISO_GPIO_PIN              GPIO_Pin_14
+//#define NRF24L01_MOSI_GPIO_PIN              GPIO_Pin_15
+
+/* extern uint8_t NRF24L01_RX_BUF[NRF24L01_RX_PLOAD_WIDTH];		//接收数据缓存
+extern uint8_t NRF24L01_TX_BUF[NRF24L01_TX_PLOAD_WIDTH];		//发射数据缓存 */
+
+void NRF24L01_Init(void);  // GPIO初始化
+void NRF24L01_RX_Mode();
+void NRF24L01_TX_Mode();
+uint8_t NRF24L01_Check();
+uint8_t NRF24L01_TxPacket(uint8_t *TxBuff);
+uint8_t NRF24L01_RxPacket(uint8_t *RxBuff);
+void NRF24L01_Check_detection();
 
 #endif
+

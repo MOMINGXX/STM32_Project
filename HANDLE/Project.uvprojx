@@ -680,24 +680,9 @@
               <FilePath>.\HardWare\OLED.c</FilePath>
             </File>
             <File>
-              <FileName>OLED.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\HardWare\OLED.h</FilePath>
-            </File>
-            <File>
-              <FileName>OLED_Font.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\HardWare\OLED_Font.h</FilePath>
-            </File>
-            <File>
               <FileName>KEY.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\HardWare\KEY.c</FilePath>
-            </File>
-            <File>
-              <FileName>KEY.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\HardWare\KEY.h</FilePath>
             </File>
             <File>
               <FileName>LED.c</FileName>
@@ -705,29 +690,9 @@
               <FilePath>.\HardWare\LED.c</FilePath>
             </File>
             <File>
-              <FileName>LED.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\HardWare\LED.h</FilePath>
-            </File>
-            <File>
               <FileName>MPU6050.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\HardWare\MPU6050.c</FilePath>
-            </File>
-            <File>
-              <FileName>MPU6050.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\HardWare\MPU6050.h</FilePath>
-            </File>
-            <File>
-              <FileName>NRF24L01.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\HardWare\NRF24L01.c</FilePath>
-            </File>
-            <File>
-              <FileName>NRF24L01.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\HardWare\NRF24L01.h</FilePath>
             </File>
             <File>
               <FileName>ROCKER.c</FileName>
@@ -735,19 +700,14 @@
               <FilePath>.\HardWare\ROCKER.c</FilePath>
             </File>
             <File>
-              <FileName>ROCKER.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\HardWare\ROCKER.h</FilePath>
-            </File>
-            <File>
               <FileName>USER_I2C.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\HardWare\USER_I2C.c</FilePath>
             </File>
             <File>
-              <FileName>USER_I2C.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\HardWare\USER_I2C.h</FilePath>
+              <FileName>NRF24L01.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\NRF24L01.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -760,19 +720,9 @@
               <FilePath>.\System\Delay.c</FilePath>
             </File>
             <File>
-              <FileName>Delay.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\System\Delay.h</FilePath>
-            </File>
-            <File>
               <FileName>USART.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\System\USART.c</FilePath>
-            </File>
-            <File>
-              <FileName>USART.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\System\USART.h</FilePath>
             </File>
             <File>
               <FileName>TIME.c</FileName>
@@ -780,9 +730,9 @@
               <FilePath>.\System\TIME.c</FilePath>
             </File>
             <File>
-              <FileName>TIME.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\System\TIME.h</FilePath>
+              <FileName>SOFT_SPI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\SOFT_SPI.c</FilePath>
             </File>
           </Files>
         </Group>

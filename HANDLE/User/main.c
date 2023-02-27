@@ -5,12 +5,18 @@
 #include "KEY.h"
 #include "ROCKER.h"
 #include "MPU6050.h"
+#include "NRF24L01.h"
 
 extern __IO uint16_t Rocker_Value_BUFF[NUMCHANNEL];
 MPU6050_Data Data;
-uint8_t KEY_NUM,ID,Mode = 2;
+ROCKER_Value Value;
+uint8_t KEY_NUM,ID,Mode = 0;
+
+uint8_t NRF24L01_RX_BUF[10];		//接收数据缓存
+uint8_t NRF24L01_TX_BUF[10] = {"abcdefgh"};		//发射数据缓存
 
 void Deal_Mode_Select();
+
 
 int main()
 {
@@ -20,7 +26,17 @@ int main()
 	Usart_Init();
 	ROCKER_Init();
 	MPU6050_Init();
+	NRF24L01_Init();
 
+	NRF24L01_Check_detection();
+
+	NRF24L01_TX_Mode();  // 设置为发送模式
+	if(NRF24L01_TxPacket(NRF24L01_TX_BUF) == NRF24L01_TX_DS)
+	{
+		LED1(ON);
+		Delay_ms(500);
+		LED1(OFF);
+	}
 	while(1)
 	{
 		KEY_NUM = KEY_GetNumber();
@@ -49,12 +65,18 @@ void Deal_Mode_Select()
 	switch(Mode)
 	{
 		case 0:	
+			ROCKER_COORDINATE(&Value);
 			OLED_ShowString(1,1," Rocker Value !");
-			OLED_ShowNum(2,1,Rocker_Value_BUFF[0],4);
-			OLED_ShowNum(2,9,Rocker_Value_BUFF[1],4);
-			OLED_ShowNum(3,1,Rocker_Value_BUFF[2],4);
-			OLED_ShowNum(3,9,Rocker_Value_BUFF[3],4);
-			OLED_ShowNum(4,1,Rocker_Value_BUFF[4],4);
+			OLED_ShowString(2,1,"LX:");
+			OLED_ShowString(2,9,"RX:");
+			OLED_ShowString(3,1,"LY:");
+			OLED_ShowString(3,9,"RY:");
+			OLED_ShowString(4,1,"Battery:");
+			OLED_ShowNum(2,4,Value.ROCKER_LX_Value,3);
+			OLED_ShowNum(2,12,Value.ROCKER_RX_Value,3);
+			OLED_ShowNum(3,4,Value.ROCKER_LY_Value,3);
+			OLED_ShowNum(3,12,Value.ROCKER_RY_Value,3);
+			OLED_ShowNum(4,10,Value.Electricity,3);
 			break;
 		case 1:	
 			OLED_ShowString(1,1," MPU6050 Value !");
@@ -76,3 +98,4 @@ void Deal_Mode_Select()
 			break;
 	}
 }
+
