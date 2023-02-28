@@ -13,7 +13,7 @@ ROCKER_Value Value;
 uint8_t KEY_NUM,ID,Mode = 0;
 
 uint8_t NRF24L01_RX_BUF[10];		//接收数据缓存
-uint8_t NRF24L01_TX_BUF[10] = {"abcdefgh"};		//发射数据缓存
+uint8_t NRF24L01_TX_BUF[32] = {0,1,2,3,4};		//发射数据缓存
 
 void Deal_Mode_Select();
 
@@ -27,7 +27,10 @@ int main()
 	ROCKER_Init();
 	MPU6050_Init();
 	NRF24L01_Init();
-
+	
+	
+	
+	NRF24L01_TX_BUF[5] = 0;
 	NRF24L01_Check_detection();
 
 	NRF24L01_TX_Mode();  // 设置为发送模式
@@ -41,7 +44,8 @@ int main()
 	{
 		KEY_NUM = KEY_GetNumber();
 		Deal_Mode_Select();
-		Delay_ms(500);
+		NRF24L01_TxPacket(NRF24L01_TX_BUF);
+		//Delay_ms(500);
 	}
 }
 
@@ -77,6 +81,12 @@ void Deal_Mode_Select()
 			OLED_ShowNum(3,4,Value.ROCKER_LY_Value,3);
 			OLED_ShowNum(3,12,Value.ROCKER_RY_Value,3);
 			OLED_ShowNum(4,10,Value.Electricity,3);
+		
+		NRF24L01_TX_BUF[0] = Value.ROCKER_LX_Value;
+	NRF24L01_TX_BUF[1] = Value.ROCKER_RX_Value;
+	NRF24L01_TX_BUF[2] = Value.ROCKER_LY_Value;
+	NRF24L01_TX_BUF[3] = Value.ROCKER_RY_Value;
+	NRF24L01_TX_BUF[4] = Value.Electricity;
 			break;
 		case 1:	
 			OLED_ShowString(1,1," MPU6050 Value !");
