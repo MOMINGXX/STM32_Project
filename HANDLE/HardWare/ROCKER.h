@@ -2,6 +2,8 @@
 #define __ROCKER_H__
 
 #include "stm32f10x.h"                  // Device header
+#include "NRF24L01.h"
+#include "LED.h"
 #include "Delay.h"
 
 typedef struct 
@@ -13,9 +15,29 @@ typedef struct
     float Electricity;
 }ROCKER_Value;
 
+typedef enum
+{
+    R_RIGHT,
+    R_LEFT,
+    R_ON,
+    R_DOWN,
+    R_MIDDLE
+}R_Value;
+
+typedef enum
+{
+    L_RIGHT,
+    L_LEFT,
+    L_ON,
+    L_DOWN,
+    L_MIDDLE
+}L_Value;
+
 #define Y_ADC_MIN 0
 #define Y_COORDINATE_MIN 0
 #define Y_COORDINATE_MAX 100
+
+extern uint8_t L_DIR,R_DIR;
 
 // 定义电池额定电压
 #define BATTERY_RATED_VOLTAGE 3.7f
@@ -55,6 +77,8 @@ typedef struct
 #define ROCKER_ADCR2x_GPIO_PIN              GPIO_Pin_1
 
 void ROCKER_Init();
+void ROCKERData_Send();
+void ROCKER_Driction();
 void ROCKER_COORDINATE(ROCKER_Value *Value);
 
 #endif

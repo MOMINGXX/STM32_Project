@@ -669,6 +669,11 @@
               <FileType>5</FileType>
               <FilePath>.\User\stm32f10x_it.h</FilePath>
             </File>
+            <File>
+              <FileName>MODEDATA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\MODEDATA.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -733,6 +738,11 @@
               <FileName>SOFT_SPI.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\System\SOFT_SPI.c</FilePath>
+            </File>
+            <File>
+              <FileName>nmswj.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\nmswj.c</FilePath>
             </File>
           </Files>
         </Group>

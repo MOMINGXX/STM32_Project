@@ -2,6 +2,7 @@
 #define __KEY_H__
 
 #include "stm32f10x.h"                  // Device header
+#include "NRF24L01.h"
 #include "LED.h"
 #include "TIME.h"
 #include "Delay.h"
@@ -45,5 +46,6 @@ void KEY_Init();
 void KEY_LOOP();
 uint8_t KEY_GetNumber();
 uint8_t Key_GetNumber();
+void Key_Send(uint8_t KetNum);
                                 
 #endif                          

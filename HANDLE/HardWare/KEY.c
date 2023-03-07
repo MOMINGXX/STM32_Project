@@ -151,7 +151,7 @@ static uint8_t Key_ReadNumber(GPIO_TypeDef *GPIOx,uint16_t GPIO_Pin)
 uint8_t Key_GetNumber()
 {
     uint8_t Number = 0;
-    if(Key_ReadNumber(KEY1_GPIO_PORT, KEY1_GPIO_PIN) == SET) {Number = 1;}
+    if(Key_ReadNumber(KEY1_GPIO_PORT, KEY1_GPIO_PIN) == SET) {Number = 1;}  
     else if(Key_ReadNumber(KEY1x_GPIO_PORT,KEY2_GPIO_PIN) == SET) {Number = 2;}
     else if(Key_ReadNumber(KEY1x_GPIO_PORT,KEY3_GPIO_PIN) == SET) {Number = 3;}
     else if(Key_ReadNumber(KEY2x_GPIO_PORT,KEY4_GPIO_PIN) == SET) {Number = 4;}
@@ -165,3 +165,35 @@ uint8_t Key_GetNumber()
     return Number;
 }
 
+void Key_Send(uint8_t KetNum)
+{
+    uint8_t KEY_BUFF[16] = " 0 ";
+    KEY_BUFF[0] = 'M';
+	KEY_BUFF[1] = 'P';
+	KEY_BUFF[2] = 'K';
+	KEY_BUFF[3] = 'Y';
+    if(KetNum)
+    {
+        if(1 == KetNum) { KEY_BUFF[4] = 1;}
+        else if(2 == KetNum) { KEY_BUFF[5] = 2;}
+        else if(3 == KetNum) { KEY_BUFF[6] = 3;}
+        else if(4 == KetNum) { KEY_BUFF[7] = 4;}
+        else if(5 == KetNum) { KEY_BUFF[8] = 5;}
+        else if(6 == KetNum) { KEY_BUFF[9] = 6;}
+        else if(7 == KetNum) { KEY_BUFF[10] = 7;}
+        else if(8 == KetNum) { KEY_BUFF[11] = 8;}
+        else if(9 == KetNum) { KEY_BUFF[12] = 9;}
+        else if(10 == KetNum) { KEY_BUFF[13] = 10;}
+        else if(11 == KetNum) { KEY_BUFF[14] = 11;}
+    }
+    KEY_BUFF[15] = '0';
+    NRF24L01_TX_Mode();
+	if(NRF24L01_TxPacket(KEY_BUFF) == NRF24L01_TX_DS)
+	{
+		LED1_TOGGLE;
+	}
+	else
+	{										   	
+  		printf("ROCKER Send failed !\n");	 
+	}
+}

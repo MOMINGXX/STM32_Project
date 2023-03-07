@@ -1,6 +1,7 @@
 #include "ROCKER.h"
 
-__IO uint16_t Rocker_Value_BUFF[NUMCHANNEL] = { 0 };
+uint16_t Rocker_Value_BUFF[NUMCHANNEL] = { 0 };
+uint8_t L_DIR,R_DIR;
 
 /****
 		* @brief   摇杆 GPIO 配置			  
@@ -132,19 +133,74 @@ void ROCKER_Init()
 	ROCKER_ADCx_Config(); 
 }
 
+/****
+	* @brief    ADC 数据处理		  
+	* @param   	Value   处理的数据
+	* @return   无    	
+	* Sample usage:ROCKER_COORDINATE(&Value);
+    */
 void ROCKER_COORDINATE(ROCKER_Value *Value)
 {
-    Value->ROCKER_RX_Value =    (Rocker_Value_BUFF[2] - Y_ADC_MIN) * (Y_COORDINATE_MAX - Y_COORDINATE_MIN) / 
+    Value->ROCKER_RY_Value =    (Rocker_Value_BUFF[2] - Y_ADC_MIN) * (Y_COORDINATE_MAX - Y_COORDINATE_MIN) / 
                                 (ADC_RESOLUTION - Y_ADC_MIN) + Y_COORDINATE_MIN;
-    Value->ROCKER_RY_Value =    (Rocker_Value_BUFF[3] - Y_ADC_MIN) * (Y_COORDINATE_MAX - Y_COORDINATE_MIN) / 
+    Value->ROCKER_RX_Value =    (Rocker_Value_BUFF[3] - Y_ADC_MIN) * (Y_COORDINATE_MAX - Y_COORDINATE_MIN) / 
                                 (ADC_RESOLUTION - Y_ADC_MIN) + Y_COORDINATE_MIN;
-    Value->ROCKER_LX_Value =    (Rocker_Value_BUFF[0] - Y_ADC_MIN) * (Y_COORDINATE_MAX - Y_COORDINATE_MIN) / 
+    Value->ROCKER_LY_Value =    (Rocker_Value_BUFF[0] - Y_ADC_MIN) * (Y_COORDINATE_MAX - Y_COORDINATE_MIN) / 
                                 (ADC_RESOLUTION - Y_ADC_MIN) + Y_COORDINATE_MIN;
-    Value->ROCKER_LY_Value =    (Rocker_Value_BUFF[1] - Y_ADC_MIN) * (Y_COORDINATE_MAX - Y_COORDINATE_MIN) / 
+    Value->ROCKER_LX_Value =    (Rocker_Value_BUFF[1] - Y_ADC_MIN) * (Y_COORDINATE_MAX - Y_COORDINATE_MIN) / 
                                 (ADC_RESOLUTION - Y_ADC_MIN) + Y_COORDINATE_MIN;  
 
     float voltage = (float)(Rocker_Value_BUFF[4] * 3.3 / ADC_RESOLUTION);       // 计算电压值
     Value->Electricity = voltage * 3 / BATTERY_RATED_VOLTAGE*100;             //计算电量  电阻(R21(R1+R2))1/3分压                                                          
 }
 
+void ROCKER_Driction()
+{
+    ROCKER_Value Value;
+    ROCKER_COORDINATE(&Value);
+    if(0 <= Value.ROCKER_RX_Value && Value.ROCKER_RX_Value <= 25) R_DIR = 0;    //右摇杆右
+    if(75 <= Value.ROCKER_RX_Value && Value.ROCKER_RX_Value < 100) R_DIR = 1;   //右摇杆左
+    if(0 <= Value.ROCKER_RY_Value && Value.ROCKER_RY_Value <= 25) R_DIR = 2;    //右摇杆s
+    if(75 <= Value.ROCKER_RY_Value && Value.ROCKER_RY_Value < 100) R_DIR = 3;    //右摇杆x
+    if(25 < Value.ROCKER_RY_Value && Value.ROCKER_RY_Value < 75) R_DIR = 4;      //右摇杆中间
+
+    if(0 <= Value.ROCKER_LX_Value && Value.ROCKER_LX_Value <= 25) L_DIR = 0;    //左摇杆右
+    if(75 <= Value.ROCKER_LX_Value && Value.ROCKER_LX_Value < 100) L_DIR = 1;   //左摇杆左
+    if(0 <= Value.ROCKER_LY_Value && Value.ROCKER_LY_Value <= 25) L_DIR = 2;    //左摇杆s
+    if(75 <= Value.ROCKER_LY_Value && Value.ROCKER_LY_Value < 100) L_DIR = 3;   //左摇杆x
+    if(25 < Value.ROCKER_LY_Value && Value.ROCKER_LY_Value < 75) L_DIR = 4;      //左摇杆中间
+}
+
+/****
+	* @brief    ADC 数据发送	  
+	* @param   	无
+	* @return   无    	
+	* Sample usage:ROCKER_DirSend(); 
+    */
+void ROCKERData_Send()
+{
+    uint8_t ROCKER_Buff[12] = "0";
+    ROCKER_Value Value;
+    ROCKER_COORDINATE(&Value);
+    ROCKER_Buff[0] = 'R';
+    ROCKER_Buff[1] = 'Y';
+    ROCKER_Buff[2] = Value.ROCKER_RY_Value;
+    ROCKER_Buff[3] = 'X';
+    ROCKER_Buff[4] = Value.ROCKER_RX_Value;
+    ROCKER_Buff[5] = 'L';
+    ROCKER_Buff[6] = 'Y';
+    ROCKER_Buff[7] = Value.ROCKER_LY_Value;
+    ROCKER_Buff[8] = 'X';
+    ROCKER_Buff[9] = Value.ROCKER_LX_Value;
+    ROCKER_Buff[10] = '0';
+    NRF24L01_TX_Mode();
+	if(NRF24L01_TxPacket(ROCKER_Buff) == NRF24L01_TX_DS)
+	{
+		LED1_TOGGLE;
+	}
+	else
+	{										   	
+ 		printf("ROCKER Send failed !\n");	
+	}
+}
 

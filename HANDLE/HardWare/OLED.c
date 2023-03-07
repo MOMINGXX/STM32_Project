@@ -104,9 +104,9 @@ void OLED_WriteData(uint8_t Data)
   */
 void OLED_SetCursor(uint8_t Y, uint8_t X)
 {
-	OLED_WriteCommand(0xB0 | Y);					//设置Y位置
+ 	OLED_WriteCommand(0xB0 | Y);					//设置Y位置
 	OLED_WriteCommand(0x10 | ((X & 0xF0) >> 4));	//设置X位置低4位
-	OLED_WriteCommand(0x00 | (X & 0x0F));			//设置X位置高4位
+	OLED_WriteCommand(0x00 | (X & 0x0F));			//设置X位置高4位 
 }
 
 /**
@@ -265,6 +265,40 @@ void OLED_ShowBinNum(uint8_t Line, uint8_t Column, uint32_t Number, uint8_t Leng
 		OLED_ShowChar(Line, Column + i, Number / OLED_Pow(2, Length - i - 1) % 2 + '0');
 	}
 }
+
+void OLED_ShowChinese(uint8_t Line,uint8_t Column,uint8_t num)
+{
+	uint8_t i;
+	OLED_SetCursor((Line - 1) * 2, (Column - 1) * 8);		//设置光标位置在上半部分
+	for(i = 0; i < 16; i++)
+	{
+		OLED_WriteData(OLED_CN[num][i]);
+	}
+	OLED_SetCursor((Line - 1) * 2 + 1, (Column - 1) * 8);	//设置光标位置在下半部分
+	for(i = 0; i < 16; i++)
+	{
+		OLED_WriteData(OLED_CN[num][i + 16]);
+	}
+}
+
+void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1,unsigned char BMP[])
+{ 	
+ 	unsigned int j=0; //定义变量
+ 	unsigned char x,y; //定义变量
+  
+ 	if(y1%8==0) y=y1/8;   //判断终止页是否为8的整数倍
+ 	 else y=y1/8+1;
+
+		for(y=y0;y<y1;y++) //从起始页开始，画到终止页
+		{
+			OLED_SetCursor(y,x0); //在页的起始列开始画
+   			for(x=x0;x<x1;x++) //画x1 - x0 列
+	    		{
+	    			OLED_WriteData(BMP[j++]);	//画图片的点    	
+	    		}
+		}
+} 
+
 
 /**
   * @brief  OLED初始化

@@ -8,12 +8,12 @@
 
 /* 这两个数据要完全一致才能够通信 */
 #define NRF24L01_TX_ADR_WIDTH 	   5  	//发射地址宽度
-#define NRF24L01_TX_PLOAD_WIDTH    32   //发射数据通道有效数据宽度0~32Byte 
+#define NRF24L01_TX_PLOAD_WIDTH    20   //发射数据通道有效数据宽度0~32Byte 
 
 #define NRF24L01_RX_ADR_WIDTH      5
-#define NRF24L01_RX_PLOAD_WIDTH    32
+#define NRF24L01_RX_PLOAD_WIDTH    20
 
-#define NRF24L01_CHANAL            40	//频道选择 
+#define NRF24L01_CHANAL            25	//频道选择 
 
 #define NRF24L01_R_REGISTER        0x00    // 读寄存器。5位存储器映射地址
 #define NRF24L01_W_REGISTER        0x20    // 写寄存器。5位存储器映射地址，仅可在断电或待机模式下执行

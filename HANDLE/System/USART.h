@@ -18,7 +18,7 @@ extern uint8_t Usart_RxFlag;
 #define SPECIFIE_USARTx                     USART1
 #define SPECIFIE_USART_CLK                  RCC_APB2Periph_USART1
 #define SPECIFIE_USART_APBxCLKCMD           RCC_APB2PeriphClockCmd
-#define SPECIFIE_USART_BAUDRATE             115200
+#define SPECIFIE_USART_BAUDRATE             9600
 
 //´®¿ÚÒý½Å
 #define SPECIFIE_USART_GPIO_CLK             RCC_APB2Periph_GPIOA
