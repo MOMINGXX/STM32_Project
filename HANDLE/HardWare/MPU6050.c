@@ -180,17 +180,23 @@ void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
 	Roll = asin(2*(q0*q1 + q2*q3 )) * 57.2957795f; // ºá¹ö
 }
 
+int Map(int val,int in_min,int in_max,int out_min,int out_max)
+{
+	return (int)(val-in_min)*(out_max-out_min)/(in_max-in_min)+out_min;
+}
+
 void MPU6050_SendData()
 {
 	uint8_t MPU6050_Buff[20] = "0";
-    MPU6050_Data Data;
-	MPU6050_GetData(&Data);
-    MPU6050_Buff[0] = 'P';
-    MPU6050_Buff[1] = (int)(Pitch * 10000) / 100;
-    MPU6050_Buff[2] = (int)(Pitch * 10000) % 100;
-    MPU6050_Buff[3] = 'R';
-	MPU6050_Buff[4] = (int)(Roll * 10000) / 100;
-    MPU6050_Buff[5] = (int)(Roll * 10000) % 100;
+	int Map_pitch=0,Map_roll=0;//Ó³ÉäºóµÄÆ«º½½Ç
+	Map_pitch=Map((int)Pitch,-90,90,0,100);
+	Map_roll=Map((int)Roll,-90,90,0,100);
+    MPU6050_Buff[0] = 'G';
+	MPU6050_Buff[1] = 'R';
+	MPU6050_Buff[2] = 'P';
+    MPU6050_Buff[3] = Map_pitch;
+    MPU6050_Buff[4] = 'R';
+	MPU6050_Buff[5] = Map_roll;
     MPU6050_Buff[6] = '0';
 
     NRF24L01_TX_Mode();

@@ -15,9 +15,5 @@ int main()
 	{
  		KEY_SCAN();
 		Mode_Option();
-		
-		Delay_ms(30);
-	 	MPU6050_Dispose();
-		SEND_OULA_ANGLE(Pitch*100,Roll*100,0); 
 	}
 }

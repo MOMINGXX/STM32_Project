@@ -1,37 +1,11 @@
 #include "MODEDATA.h"
 #include "bmp.h"
 
-uint8_t Mode = 2;
+uint8_t Mode = 1;
 uint8_t Mode_TxBuf[5] = " 0 ";  //模式选项缓存
+uint8_t RGB_Mode = 1;
+
 uint8_t KEY_NUM;
-
-void OLED_Move(uint8_t Mode,uint8_t Direction)
-{
-    OLED_WriteCommand(0x2E);        //关闭滚动
-	OLED_WriteCommand(Direction);   //水平垂直或者右滚动 29/2a
-	OLED_WriteCommand(0x00);        //虚拟字节
-	OLED_WriteCommand(0x00);        //起始页 0
-	OLED_WriteCommand(0x07);        //滚动时间间隔
-	OLED_WriteCommand(0x07);        //终止页 7
-	OLED_WriteCommand(0x00);        //虚拟字节
-	OLED_WriteCommand(0xFF);        //虚拟字节
-	if(Mode==1)
-	{
-		OLED_ShowString(1,1,"Bluetooth mode !");  //蓝牙
-	}
-	if(Mode==2)
-	{
-		OLED_ShowString(1,1,"Rocker mode !");  //遥感
-	}
-	if(Mode==3)
-	{
-		OLED_ShowString(1,1,"MP3PLAY mode !");  //播放
-	}
-	OLED_WriteCommand(0x2F);        //开启滚动
-	Delay_ms(300);
-}
-
-
 
 void OLED_Mode(Mode_Init Mode)
 {
@@ -144,6 +118,7 @@ void Mode_Option()
         {
             OLED_Clear();
             OLED_ShowString(1,1,"Bluetooth mode !");
+            OLED_DrawBMP(40,2,88,8,BMP_LY);
             while(1)
             {
                 NRF24L01_TX_Mode();
@@ -153,6 +128,12 @@ void Mode_Option()
                 ROCKER_Driction();
                 if(L_DIR == L_ON && R_DIR == R_ON)      //左右摇杆向上
                 {
+                    NRF24L01_TX_Mode();
+                    Mode_TxBuf[0] = 'S';
+                    Mode_TxBuf[1] = 'T';
+                    Mode_TxBuf[2] = 'O';
+                    Mode_TxBuf[3] = 'P';
+                    while(NRF24L01_TxPacket(Mode_TxBuf) == NRF24L01_TX_DS);
                     OLED_Clear();
                     break;
                 }
@@ -164,7 +145,7 @@ void Mode_Option()
         if(DETERMIN == KEY_NUM)
         {
             OLED_Clear();
-            OLED_ShowString(1,1,"Rocker mode !   ");
+            OLED_ShowString(1,1,"  Rocker mode !");
             while(1)
             {
                 KEY_SCAN();
@@ -172,6 +153,12 @@ void Mode_Option()
                 OLED_Show_ROCKERValue();
                 if(RETURN == KEY_NUM)
                 {
+                    NRF24L01_TX_Mode();
+                    Mode_TxBuf[0] = 'S';
+                    Mode_TxBuf[1] = 'T';
+                    Mode_TxBuf[2] = 'O';
+                    Mode_TxBuf[3] = 'P';
+                    while(NRF24L01_TxPacket(Mode_TxBuf) == NRF24L01_TX_DS);
                     OLED_Clear();
                     break;
                 }
@@ -184,15 +171,23 @@ void Mode_Option()
         {
             OLED_Clear();
             OLED_ShowString(1,1,"MP3 PLAY mode !");
+            OLED_DrawBMP(40,2,88,8,BMP_MP3);
             while(1)
             {
+				ROCKER_Driction();
                 KEY_SCAN();
                 Key_Send(KEY_NUM); 
-                if(RETURN == KEY_NUM)
+                if(L_DIR == L_ON && R_DIR == R_ON)      //左右摇杆向上
                 {
+                    NRF24L01_TX_Mode();
+                    Mode_TxBuf[0] = 'S';
+                    Mode_TxBuf[1] = 'T';
+                    Mode_TxBuf[2] = 'O';
+                    Mode_TxBuf[3] = 'P';
+                    while(NRF24L01_TxPacket(Mode_TxBuf) == NRF24L01_TX_DS);
                     OLED_Clear();
                     break;
-                } 
+                }  
             }
         }
     }
@@ -201,14 +196,21 @@ void Mode_Option()
         if(DETERMIN == KEY_NUM)
         {
             OLED_Clear();
-            OLED_ShowString(1,1,"GRAVITY mode !");     
+            OLED_ShowString(1,1," GRAVITY mode !");     
             while(1)
             {
                 ROCKER_Driction();
                 ROCKERData_Send();
                 MPU6050_SendData();
+                OLED_Show_MPU6050Value();
                 if(L_DIR == L_ON && R_DIR == R_ON)      //左右摇杆向上
                 {
+                    NRF24L01_TX_Mode();
+                    Mode_TxBuf[0] = 'S';
+                    Mode_TxBuf[1] = 'T';
+                    Mode_TxBuf[2] = 'O';
+                    Mode_TxBuf[3] = 'P';
+                    while(NRF24L01_TxPacket(Mode_TxBuf) == NRF24L01_TX_DS);
                     OLED_Clear();
                     break;
                 }  
@@ -220,7 +222,8 @@ void Mode_Option()
         if(DETERMIN == KEY_NUM)
         {
             OLED_Clear();
-            OLED_ShowString(1,1,"KEY mode !");      
+            OLED_ShowString(1,1,"   KEY mode !");
+            OLED_DrawBMP(40,2,88,8,BMP_KY);      
             while(1)
             {
                 KEY_SCAN();
@@ -228,6 +231,12 @@ void Mode_Option()
                 Key_Send(KEY_NUM); 
                 if(L_DIR == L_ON && R_DIR == R_ON)      //左右摇杆向上
                 {
+                    NRF24L01_TX_Mode();
+                    Mode_TxBuf[0] = 'S';
+                    Mode_TxBuf[1] = 'T';
+                    Mode_TxBuf[2] = 'O';
+                    Mode_TxBuf[3] = 'P';
+                    while(NRF24L01_TxPacket(Mode_TxBuf) == NRF24L01_TX_DS);
                     OLED_Clear();
                     break;
                 }  
@@ -239,7 +248,8 @@ void Mode_Option()
         if(DETERMIN == KEY_NUM)
         {
             OLED_Clear();
-            OLED_ShowString(1,1,"AVOID mode !");   
+            OLED_ShowString(1,1,"   AVOID mode !");  
+            OLED_DrawBMP(40,2,88,8,BMP_BZ); 
             while(1)
             {
                 NRF24L01_TX_Mode();
@@ -249,6 +259,12 @@ void Mode_Option()
                 ROCKER_Driction();
                 if(L_DIR == L_ON && R_DIR == R_ON)      //左右摇杆向上
                 {
+                    NRF24L01_TX_Mode();
+                    Mode_TxBuf[0] = 'S';
+                    Mode_TxBuf[1] = 'T';
+                    Mode_TxBuf[2] = 'O';
+                    Mode_TxBuf[3] = 'P';
+                    while(NRF24L01_TxPacket(Mode_TxBuf) == NRF24L01_TX_DS);
                     OLED_Clear();
                     break;
                 }  
@@ -260,16 +276,45 @@ void Mode_Option()
         if(DETERMIN == KEY_NUM)
         {
             OLED_Clear();
-            OLED_ShowString(1,1,"WS2812 mode !");  
+            OLED_ShowString(1,1," WS2812 mode !"); 
+            OLED_DrawBMP(40,2,88,8,BMP_CD); 
             while(1)
             {
+                ROCKER_Driction();
+                if(L_DIR == L_DOWN)       //s
+                {
+                    RGB_Mode++;
+                    if(8 == RGB_Mode) RGB_Mode=0;
+                    while(1)
+                    {
+                        ROCKER_Driction();
+                        if(L_DIR == L_ON && R_DIR == R_ON)
+                        {
+                            break;
+                        }
+                    }
+                }
                 NRF24L01_TX_Mode();
                 Mode_TxBuf[0] = 'W';
                 Mode_TxBuf[1] = 'L';
+                if(0 == RGB_Mode) Mode_TxBuf[2] = 'A'; 
+                else if(1 == RGB_Mode) Mode_TxBuf[2] = 'E'; 
+                else if(2 == RGB_Mode) Mode_TxBuf[2] = 'T'; 
+                else if(3 == RGB_Mode) Mode_TxBuf[2] = 'W'; 
+                else if(4 == RGB_Mode) Mode_TxBuf[2] = 'R'; 
+                else if(5 == RGB_Mode) Mode_TxBuf[2] = 'G'; 
+                else if(6 == RGB_Mode) Mode_TxBuf[2] = 'B'; 
+                else if(7 == RGB_Mode) Mode_TxBuf[2] = 'C'; 
                 while(NRF24L01_TxPacket(Mode_TxBuf) == NRF24L01_TX_DS);
-                ROCKER_Driction();
+                
                 if(L_DIR == L_ON && R_DIR == R_ON)      //左右摇杆向上
                 {
+                    NRF24L01_TX_Mode();
+                    Mode_TxBuf[0] = 'S';
+                    Mode_TxBuf[1] = 'T';
+                    Mode_TxBuf[2] = 'O';
+                    Mode_TxBuf[3] = 'P';
+                    while(NRF24L01_TxPacket(Mode_TxBuf) == NRF24L01_TX_DS);
                     OLED_Clear();
                     break;
                 }  
