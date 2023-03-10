@@ -7,6 +7,12 @@ uint8_t RGB_Mode = 1;
 
 uint8_t KEY_NUM;
 
+/****
+	* @brief	OLED 显示模式选项 			  
+	* @param   	Mode    选择的模式
+	* @return   无  	
+	* Sample usage: OLED_Mode(1);
+    */
 void OLED_Mode(Mode_Init Mode)
 {
     switch(Mode)
@@ -44,11 +50,23 @@ void OLED_Mode(Mode_Init Mode)
     }
 }
 
+/****
+	* @brief	按键扫描		  
+	* @param   	无
+	* @return   无  	
+	* Sample usage: KEY_SCAN();
+    */
 void KEY_SCAN()
 {
     KEY_NUM = Key_GetNumber();
 }
 
+/****
+	* @brief	OLED 显示手柄摇杆值 及 电池电量		  
+	* @param   	无
+	* @return   无  	
+	* Sample usage: OLED_Show_ROCKERValue();
+    */
 static void OLED_Show_ROCKERValue()
 {
     ROCKER_Value Value;
@@ -65,6 +83,12 @@ static void OLED_Show_ROCKERValue()
     OLED_ShowNum(4,10,Value.Electricity,3);
 }
 
+/****
+	* @brief	OLED 陀螺仪原始值	  
+	* @param   	无
+	* @return   无  	
+	* Sample usage: OLED_Show_MPU6050Value();
+    */
 static void OLED_Show_MPU6050Value()
 {
     MPU6050_Data Data;
@@ -78,6 +102,12 @@ static void OLED_Show_MPU6050Value()
     OLED_ShowSignedNum(4,9,Data.GYRO_ZOUT,5);
 }
 
+/****
+	* @brief	模式选项  
+	* @param   	无
+	* @return   无  	
+	* Sample usage: Mode_Option();
+    */
 void Mode_Option()
 {
     ROCKER_Driction();
@@ -174,6 +204,10 @@ void Mode_Option()
             OLED_DrawBMP(40,2,88,8,BMP_MP3);
             while(1)
             {
+                NRF24L01_TX_Mode();
+                Mode_TxBuf[0] = 'M';
+                Mode_TxBuf[1] = 'P';
+                while(NRF24L01_TxPacket(Mode_TxBuf) == NRF24L01_TX_DS);
 				ROCKER_Driction();
                 KEY_SCAN();
                 Key_Send(KEY_NUM); 
