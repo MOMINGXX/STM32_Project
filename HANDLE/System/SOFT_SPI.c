@@ -45,7 +45,7 @@ static void SPI_W_MOSI(uint8_t BitValue)
 }
 
 /****
-	* @brief	软件模拟SPI 引脚陪着	   		  
+	* @brief	软件模拟SPI 引脚配置   		  
 	* @param	无
 	* @return   无  	
 	* Sample usage:SOFT_SPI_Config();
